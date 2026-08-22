@@ -1,17 +1,44 @@
-# Dataset
+# 📊 HireGuard AI Dataset
 
-HireGuard AI uses the **Real / Fake Job Posting Prediction** dataset.
+HireGuard AI uses the **Real / Fake Job Posting Prediction** dataset for training and evaluating the recruitment fraud detection model.
 
-The dataset contains approximately 18,000 job advertisements with both
-legitimate and fraudulent examples.
+## Dataset Overview
 
-Due to GitHub file-size limitations, the raw dataset is not stored directly
-in this repository.
+The original dataset contains approximately 18,000 job advertisements with both legitimate and fraudulent examples.
+
+After preprocessing, the dataset used in this project contains:
+
+| Category | Count |
+|---|---:|
+| Total Job Postings | 17,632 |
+| Legitimate | 16,776 |
+| Fraudulent | 856 |
+| Fraud Rate | 4.85% |
 
 ## Dataset Source
 
-Kaggle: Real / Fake Job Posting Prediction
+**Kaggle — Real / Fake Job Posting Prediction**
 
-After downloading the dataset, place it at:
+Dataset author: Shivam Bansal
 
-data/raw/fake_job_postings.csv
+https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction
+
+## Local Setup
+
+The complete dataset is not included in this repository because of GitHub browser file-size limitations.
+
+Download `fake_job_postings.csv` from the Kaggle dataset and create the following structure:
+
+data/
+├── raw/
+│   └── fake_job_postings.csv
+└── processed/
+    └── cleaned_job_postings.csv
+
+The processed dataset can be generated through the project's Jupyter Notebook.
+
+## Note
+
+The trained HireGuard AI model and TF-IDF vectorizer are already available in the `models/` directory for inference.
+
+The raw dataset is required only when reproducing the complete training and Data Science workflow.
