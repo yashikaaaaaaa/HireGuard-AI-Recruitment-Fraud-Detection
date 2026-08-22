@@ -1,56 +1,88 @@
 # 🛡️ HireGuard AI — Recruitment Fraud Detection
 
-> An end-to-end Machine Learning and NLP system for detecting potentially fraudulent online job advertisements.
+> An end-to-end NLP and Machine Learning system for detecting potentially fraudulent online job advertisements.
 
-HireGuard AI analyzes the textual content of job postings and predicts whether an advertisement is **Likely Legitimate** or **Potentially Fraudulent**.
+**HireGuard AI** analyzes job advertisement text and classifies it as either **Likely Legitimate** or **Potentially Fraudulent**.
 
-The project goes beyond model training by integrating the trained Machine Learning pipeline with a **FastAPI REST API** and an interactive **HTML/CSS/JavaScript frontend**, creating a complete deployable ML application.
+Unlike a notebook-only ML project, HireGuard AI combines a complete Data Science workflow with a **trained NLP model, FastAPI REST API, and interactive web frontend**, turning the model into a usable full-stack Machine Learning application.
 
 ---
 
-## 🚀 Project Overview
+## ✨ Project Highlights
 
-Online recruitment platforms have made job searching easier, but they have also created opportunities for fraudulent job advertisements involving fake companies, unrealistic salaries, registration fees, misleading work-from-home offers, and attempts to collect personal information.
+- 📊 End-to-end Data Science workflow
+- 🧹 Data cleaning and preprocessing
+- 🔍 Exploratory Data Analysis
+- 📝 Natural Language Processing
+- 🔢 TF-IDF feature extraction
+- 🤖 Four Machine Learning models compared
+- 🎯 Hyperparameter tuning
+- 🏆 Linear SVM selected as the final model
+- ⚡ FastAPI REST API
+- 💻 HTML/CSS/JavaScript frontend
+- 🔄 Real-time ML predictions
+- 💾 Serialized model and vectorizer
+- 🛡️ Responsible risk-based prediction design
 
-**HireGuard AI** explores whether Natural Language Processing and Machine Learning can identify textual patterns associated with fraudulent recruitment advertisements.
+---
 
-The system performs:
+## 🖥️ HireGuard AI Interface
 
-- Data cleaning and preprocessing
-- Exploratory Data Analysis (EDA)
-- Class imbalance analysis
-- Natural Language Processing
-- TF-IDF feature extraction
-- Machine Learning model training
-- Multi-model evaluation
-- Hyperparameter tuning
-- Model serialization
-- Real-time prediction
-- REST API development
-- Interactive frontend integration
+![HireGuard AI Interface](images/hireguard-home.png)
+
+### 🚨 Potentially Fraudulent Prediction
+
+![Fraudulent Prediction](images/fraudulent-prediction.png)
+
+### ✅ Likely Legitimate Prediction
+
+![Legitimate Prediction](images/legitimate-prediction.png)
 
 ---
 
 ## 🎯 Problem Statement
 
-Build an end-to-end Data Science system capable of classifying online job advertisements as:
+Online recruitment platforms make job searching easier, but they can also be exploited by scammers posting fake job opportunities.
 
-- ✅ **Likely Legitimate**
-- 🚨 **Potentially Fraudulent**
+Fraudulent advertisements may contain patterns such as:
 
-The project also aims to demonstrate how a Machine Learning model developed inside a Data Science notebook can be converted into a usable application through an API and web interface.
+- Unrealistic salaries
+- Registration or training fees
+- No-interview claims
+- Suspicious work-from-home offers
+- Requests for personal information
+- Misleading company descriptions
+- Urgent recruitment language
+
+The goal of **HireGuard AI** is to use Natural Language Processing and Machine Learning to identify textual patterns associated with fraudulent recruitment advertisements.
+
+The system classifies an advertisement as:
+
+```text
+✅ Likely Legitimate
+```
+
+or
+
+```text
+🚨 Potentially Fraudulent
+```
+
+The prediction is designed as a **risk indicator**, not definitive proof of fraud.
 
 ---
 
-## 📊 Dataset
+# 📊 Dataset
 
-The project uses a dataset containing real and fraudulent job advertisements with information such as:
+HireGuard AI uses the **Real / Fake Job Posting Prediction** dataset.
+
+The original dataset contains real and fraudulent job advertisements with attributes including:
 
 - Job title
 - Location
 - Department
 - Company profile
-- Job description
+- Description
 - Requirements
 - Benefits
 - Employment type
@@ -60,79 +92,73 @@ The project uses a dataset containing real and fraudulent job advertisements wit
 - Function
 - Fraudulent label
 
-### Dataset after preprocessing
+### Dataset After Preprocessing
 
-| Metric | Value |
+| Category | Count |
 |---|---:|
 | Total Job Postings | 17,632 |
 | Legitimate Postings | 16,776 |
 | Fraudulent Postings | 856 |
 | Fraud Rate | 4.85% |
 
-The dataset is therefore **highly imbalanced**, making accuracy alone an insufficient metric for evaluating fraud detection performance.
+The target variable is therefore **highly imbalanced**.
 
----
+Because fraudulent advertisements represent only **4.85%** of the processed dataset, model selection was not based on accuracy alone.
 
-## 🔍 Exploratory Data Analysis
-
-The notebook investigates the dataset before model development.
-
-Major analysis includes:
-
-- Dataset dimensions and structure
-- Missing-value analysis
-- Target class distribution
-- Fraud percentage
-- Text-length characteristics
-- Common terms in fraudulent advertisements
-- Common terms in legitimate advertisements
-- Word-frequency analysis
-- Visualization of recruitment fraud patterns
-
-The EDA revealed a strong imbalance between legitimate and fraudulent advertisements.
-
-Because only approximately **4.85%** of the processed observations are fraudulent, special attention was given to:
+Special attention was given to:
 
 - Precision
 - Recall
 - F1-score
 
-rather than relying only on overall accuracy.
+### Dataset Source
+
+**Kaggle — Real / Fake Job Posting Prediction**
+
+Dataset author: Shivam Bansal
+
+https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction
+
+> The raw dataset is not stored directly in this repository because of repository/browser upload size limitations. Dataset setup instructions are available in the `data` directory.
 
 ---
 
-## 🧹 Data Preprocessing
+# 🔍 Exploratory Data Analysis
 
-Textual fields were combined to create a unified representation of each job advertisement.
+The project performs Exploratory Data Analysis before model development.
 
-The preprocessing pipeline includes operations such as:
+The analysis includes:
+
+- Dataset structure
+- Missing-value analysis
+- Target distribution
+- Fraud-rate analysis
+- Text-length analysis
+- Fraudulent advertisement patterns
+- Legitimate advertisement patterns
+- Word-frequency analysis
+- Class imbalance visualization
+
+One of the most important observations was the strong imbalance between legitimate and fraudulent advertisements.
+
+---
+
+# 🧹 Data Preprocessing
+
+The NLP preprocessing workflow prepares raw job advertisements for Machine Learning.
+
+Major steps include:
 
 1. Handling missing values
 2. Removing unnecessary columns
-3. Combining relevant textual attributes
+3. Combining relevant text fields
 4. Converting text to lowercase
-5. Removing URLs and unwanted characters
-6. Removing punctuation
-7. Removing extra whitespace
-8. Preparing cleaned text for vectorization
+5. Removing URLs
+6. Removing punctuation and unwanted characters
+7. Removing unnecessary whitespace
+8. Preparing the cleaned text for vectorization
 
-The processed dataset is stored separately from the original dataset to preserve reproducibility.
-
----
-
-## 🧠 NLP Pipeline
-
-Machine Learning algorithms cannot directly process raw textual job advertisements.
-
-HireGuard AI therefore converts the cleaned advertisements into numerical representations using:
-
-### TF-IDF — Term Frequency-Inverse Document Frequency
-
-TF-IDF assigns importance to terms based on their relevance within an advertisement relative to the complete collection of job postings.
-
-The resulting sparse feature matrix is then supplied to the classification algorithms.
-
-### Pipeline
+### Processing Pipeline
 
 ```text
 Raw Job Advertisement
@@ -141,65 +167,45 @@ Data Cleaning
         ↓
 Text Preprocessing
         ↓
-Combined Text Features
+Combined Text
         ↓
 TF-IDF Vectorization
         ↓
-Machine Learning Classifier
+Machine Learning Model
         ↓
 Fraud Risk Prediction
 ```
 
 ---
 
-## 🤖 Machine Learning Models
+# 🧠 NLP & Feature Engineering
 
-Multiple classification algorithms were evaluated rather than selecting a model based on a single experiment.
+## TF-IDF Vectorization
 
-The project compares:
+HireGuard AI uses **TF-IDF (Term Frequency–Inverse Document Frequency)** to convert textual job advertisements into numerical feature vectors.
 
-### 1. Logistic Regression
+TF-IDF assigns higher importance to terms that are relevant to a particular advertisement while reducing the importance of extremely common words.
 
-| Metric | Score |
-|---|---:|
-| Accuracy | 97.59% |
-| Precision | 70.87% |
-| Recall | 85.38% |
-| F1-Score | 77.45% |
-
-Logistic Regression achieved strong fraud recall but produced more false-positive predictions.
-
-### 2. Multinomial Naive Bayes
-
-| Metric | Score |
-|---|---:|
-| Accuracy | 96.34% |
-| Precision | 65.67% |
-| Recall | 51.46% |
-| F1-Score | 57.70% |
-
-Although computationally efficient for text classification, Naive Bayes detected substantially fewer fraudulent advertisements.
-
-### 3. Random Forest
-
-| Metric | Score |
-|---|---:|
-| Accuracy | 98.44% |
-| Precision | 96.77% |
-| Recall | 70.18% |
-| F1-Score | 81.36% |
-
-Random Forest produced excellent precision but lower fraud recall.
-
-### 4. Linear Support Vector Machine
-
-The Linear SVM provided the strongest overall balance between fraud detection precision and recall.
+The resulting sparse feature matrix is used to train the classification algorithms.
 
 ---
 
-## 🏆 Final Model — Linear SVM
+# 🤖 Machine Learning Models
 
-After comparing the candidate models, **Linear SVM** was selected as the final classifier.
+Four Machine Learning algorithms were evaluated.
+
+| Model | Accuracy | Fraud Precision | Fraud Recall | Fraud F1 |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 97.59% | 70.87% | **85.38%** | 77.45% |
+| Multinomial Naive Bayes | 96.34% | 65.67% | 51.46% | 57.70% |
+| Random Forest | 98.44% | **96.77%** | 70.18% | 81.36% |
+| **Linear SVM** | **98.50%** | 86.42% | 81.87% | **84.08%** |
+
+---
+
+# 🏆 Final Model — Linear SVM
+
+After model comparison, **Linear Support Vector Machine (Linear SVM)** was selected as the final classifier.
 
 Hyperparameter tuning identified:
 
@@ -224,60 +230,58 @@ Best C = 1.0
 Legitimate       0.99       0.99       0.99        3356
 Fraudulent       0.86       0.82       0.84         171
 
-Accuracy                               0.98        3527
-Macro Avg        0.93       0.91       0.92        3527
-Weighted Avg     0.98       0.98       0.98        3527
+accuracy                               0.98        3527
+macro avg        0.93       0.91       0.92        3527
+weighted avg     0.98       0.98       0.98        3527
 ```
 
-The final model correctly classified the majority of both legitimate and fraudulent advertisements while maintaining a strong balance between precision and recall.
+---
+
+## 📈 Model Performance
+
+![Machine Learning Model Comparison](images/model-comparison.png)
 
 ---
 
-## 📈 Why F1-Score Matters
+# 🔢 Confusion Matrix
 
-The dataset contains significantly fewer fraudulent advertisements than legitimate ones.
-
-A classifier predicting almost every advertisement as legitimate could therefore obtain deceptively high accuracy.
-
-For this reason, HireGuard AI evaluates the minority fraud class using:
-
-**Precision**
-
-Measures how many advertisements predicted as fraudulent were actually fraudulent.
-
-**Recall**
-
-Measures how many actual fraudulent advertisements were successfully detected.
-
-**F1-Score**
-
-Provides a harmonic balance between precision and recall.
-
-The final fraud-class **F1-score of 84.08%** therefore provides a more informative measure of fraud detection performance than accuracy alone.
-
----
-
-## 🔢 Confusion Matrix — Linear SVM
-
-The Linear SVM confusion matrix on the test set produced:
+The final Linear SVM produced:
 
 | | Predicted Legitimate | Predicted Fraudulent |
 |---|---:|---:|
 | **Actual Legitimate** | 3334 | 22 |
 | **Actual Fraudulent** | 31 | 140 |
 
-This corresponds to:
+Therefore:
 
-- **3334** legitimate advertisements correctly identified
-- **140** fraudulent advertisements correctly detected
-- **22** legitimate advertisements incorrectly flagged
-- **31** fraudulent advertisements missed
+- **3334** legitimate advertisements were correctly classified.
+- **140** fraudulent advertisements were correctly detected.
+- **22** legitimate advertisements were incorrectly flagged.
+- **31** fraudulent advertisements were missed.
 
 ---
 
-## 💾 Model Serialization
+# 📈 Why F1-Score Matters
 
-After model selection, the trained model and TF-IDF vectorizer are serialized using `joblib`.
+Accuracy can be misleading for an imbalanced classification problem.
+
+Because only **4.85%** of the processed advertisements are fraudulent, a model predicting almost everything as legitimate could still obtain high accuracy.
+
+For this reason:
+
+**Precision** measures how many advertisements predicted as fraudulent were actually fraudulent.
+
+**Recall** measures how many actual fraudulent advertisements were successfully detected.
+
+**F1-score** balances precision and recall.
+
+The final Linear SVM achieved a **fraud-class F1-score of 84.08%**, making it the strongest overall model in this project.
+
+---
+
+# 💾 Model Serialization
+
+The trained model and fitted TF-IDF vectorizer are saved using `joblib`.
 
 ```text
 models/
@@ -285,68 +289,67 @@ models/
 └── hireguard_tfidf_vectorizer.pkl
 ```
 
-Saving both components ensures that new job advertisements undergo the same feature transformation used during training.
+Saving both components allows the backend to perform predictions without retraining the model every time the application starts.
 
 ---
 
 # 🏗️ System Architecture
 
-HireGuard AI follows a simple full-stack Machine Learning architecture:
-
 ```text
-┌─────────────────────────────┐
-│        User / Browser       │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│        User / Browser        │
+└──────────────┬───────────────┘
                │
                ▼
-┌─────────────────────────────┐
-│     HTML / CSS / JavaScript │
-│          Frontend           │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│     HTML / CSS / JavaScript  │
+│           Frontend           │
+└──────────────┬───────────────┘
+               │
                │ HTTP POST
                ▼
-┌─────────────────────────────┐
-│         FastAPI API         │
-│       /predict endpoint     │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│          FastAPI API         │
+│       /predict endpoint      │
+└──────────────┬───────────────┘
                │
                ▼
-┌─────────────────────────────┐
-│       Text Preprocessing    │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│       Text Preprocessing     │
+└──────────────┬───────────────┘
                │
                ▼
-┌─────────────────────────────┐
-│      TF-IDF Vectorizer      │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│       TF-IDF Vectorizer      │
+└──────────────┬───────────────┘
                │
                ▼
-┌─────────────────────────────┐
-│         Linear SVM          │
-└──────────────┬──────────────┘
+┌──────────────────────────────┐
+│          Linear SVM          │
+└──────────────┬───────────────┘
                │
                ▼
-┌─────────────────────────────┐
-│ Prediction + Decision Score │
-└─────────────────────────────┘
+┌──────────────────────────────┐
+│ Prediction + Decision Score  │
+└──────────────────────────────┘
 ```
 
 ---
 
 # ⚡ FastAPI Backend
 
-The trained ML pipeline is exposed through a REST API built with **FastAPI**.
+The trained Machine Learning pipeline is exposed through a REST API built with **FastAPI**.
 
 The backend:
 
-- Loads the serialized Linear SVM model
-- Loads the saved TF-IDF vectorizer
+- Loads the trained Linear SVM model
+- Loads the TF-IDF vectorizer
 - Accepts job advertisement text
 - Cleans incoming text
 - Vectorizes the advertisement
 - Performs inference
-- Calculates the SVM decision score
-- Returns a structured JSON response
+- Generates the SVM decision score
+- Returns a JSON response
 
 ### API Endpoints
 
@@ -356,15 +359,13 @@ GET  /health
 POST /predict
 ```
 
-When the backend is running, interactive Swagger documentation is available at:
+After starting the backend, Swagger API documentation is available at:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
----
-
-## Example API Response — Suspicious Posting
+### Example Fraud-Risk Response
 
 ```json
 {
@@ -375,7 +376,7 @@ http://127.0.0.1:8000/docs
 }
 ```
 
-## Example API Response — Legitimate Posting
+### Example Legitimate Response
 
 ```json
 {
@@ -386,47 +387,57 @@ http://127.0.0.1:8000/docs
 }
 ```
 
+> The Linear SVM decision score represents the model's position relative to its decision boundary. It should **not** be interpreted as a probability of fraud.
+
 ---
 
 # 💻 Interactive Frontend
 
-HireGuard AI includes a custom frontend built using:
+The HireGuard AI interface is built using:
 
 - HTML5
 - CSS3
 - JavaScript
 - Fetch API
 
-Users can paste a job advertisement into the application and receive an ML-generated risk assessment.
+Users can paste a job advertisement into the interface and receive a real-time Machine Learning assessment.
 
 The interface displays:
 
-- Prediction
+- Classification
 - Decision score
-- Classification model
+- Model name
 - Risk explanation
 - Responsible-use disclaimer
-- Backend status
+- AI engine/backend status
 
 ---
 
-## 🛡️ Responsible Prediction Design
+# 🛡️ Responsible AI Design
 
-HireGuard intentionally uses the labels:
+HireGuard deliberately returns:
 
 ```text
 Potentially Fraudulent
 ```
 
-and
+instead of:
+
+```text
+Fraudulent
+```
+
+and:
 
 ```text
 Likely Legitimate
 ```
 
-rather than presenting predictions as absolute facts.
+instead of guaranteeing that an advertisement is legitimate.
 
-Machine Learning predictions can be incorrect, and a classification result should not be treated as proof that a company or advertisement is fraudulent.
+Machine Learning predictions can be incorrect.
+
+HireGuard AI should therefore be treated as a **screening and risk-assessment tool**, not an automated authority.
 
 Users should independently verify:
 
@@ -448,10 +459,7 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 │   └── main.py
 │
 ├── data/
-│   ├── raw/
-│   │   └── fake_job_postings.csv
-│   └── processed/
-│       └── cleaned_job_postings.csv
+│   └── README.md
 │
 ├── frontend/
 │   ├── index.html
@@ -459,6 +467,10 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 │   └── script.js
 │
 ├── images/
+│   ├── hireguard-home.png
+│   ├── fraudulent-prediction.png
+│   ├── legitimate-prediction.png
+│   └── model-comparison.png
 │
 ├── models/
 │   ├── hireguard_svm_model.pkl
@@ -468,6 +480,7 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 │   └── HireGuard_AI_Final_Project.ipynb
 │
 ├── .gitignore
+├── LICENSE
 ├── requirements.txt
 └── README.md
 ```
@@ -476,7 +489,7 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 
 # 🛠️ Technologies Used
 
-### Data Science
+### Data Science & NLP
 
 - Python
 - Pandas
@@ -484,11 +497,11 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 - Matplotlib
 - NLTK
 - WordCloud
+- TF-IDF
 
 ### Machine Learning
 
 - Scikit-learn
-- TF-IDF
 - Logistic Regression
 - Multinomial Naive Bayes
 - Linear SVM
@@ -504,12 +517,12 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 
 ### Frontend
 
-- HTML
-- CSS
+- HTML5
+- CSS3
 - JavaScript
 - Fetch API
 
-### Development
+### Development Tools
 
 - Visual Studio Code
 - Jupyter Notebook
@@ -518,30 +531,28 @@ HireGuard-AI-Recruitment-Fraud-Detection/
 
 ---
 
-# ⚙️ Installation & Setup
+# ⚙️ Installation
 
 ## 1. Clone the Repository
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
+git clone https://github.com/yashikaaaaaaa/HireGuard-AI-Recruitment-Fraud-Detection.git
 cd HireGuard-AI-Recruitment-Fraud-Detection
 ```
 
 ## 2. Create a Virtual Environment
 
-### Windows
-
 ```bash
 python -m venv venv
 ```
 
-Activate it using:
+### Windows PowerShell
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-If PowerShell prevents script execution for the current session:
+If PowerShell blocks script execution:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
@@ -554,13 +565,15 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 pip install -r requirements.txt
 ```
 
+The trained model and TF-IDF vectorizer are already included, so the dataset is **not required simply to run the web application**.
+
 ---
 
 # 🚀 Running HireGuard AI
 
-HireGuard consists of a backend and frontend, so run them in two terminals.
+HireGuard uses separate backend and frontend servers.
 
-## Terminal 1 — Start FastAPI
+## Terminal 1 — Start the Backend
 
 From the project root:
 
@@ -574,7 +587,7 @@ Backend:
 http://127.0.0.1:8000
 ```
 
-Swagger documentation:
+Swagger API:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -586,27 +599,20 @@ Keep this terminal running.
 
 ## Terminal 2 — Start the Frontend
 
-### Option A — Python HTTP Server
-
-Move into the frontend directory:
+Open another terminal.
 
 ```bash
 cd frontend
-```
-
-Start the server:
-
-```bash
 python -m http.server 5501
 ```
 
-Open:
+Then open:
 
 ```text
 http://127.0.0.1:5501
 ```
 
-### Option B — VS Code Live Server
+### Alternative — VS Code Live Server
 
 Open:
 
@@ -620,13 +626,13 @@ and select:
 Open with Live Server
 ```
 
-The exact Live Server port may vary depending on the local VS Code configuration.
+The exact Live Server port may vary.
 
 ---
 
-# 🧪 Testing the Application
+# 🧪 Test the Application
 
-### Suspicious Example
+### Suspicious Job Example
 
 ```text
 URGENT WORK FROM HOME OPPORTUNITY!
@@ -640,13 +646,13 @@ receiving the appointment letter.
 Contact immediately through WhatsApp.
 ```
 
-Expected classification:
+Expected output:
 
 ```text
-Potentially Fraudulent
+🚨 Potentially Fraudulent
 ```
 
-### Legitimate Example
+### Legitimate Job Example
 
 ```text
 Software Engineer Intern
@@ -664,140 +670,152 @@ interview process. There are no registration fees or payments
 required from applicants.
 ```
 
-Expected classification:
+Expected output:
 
 ```text
-Likely Legitimate
+✅ Likely Legitimate
 ```
 
 ---
 
 # 📓 Data Science Notebook
 
-The complete Data Science workflow is available at:
+The complete Data Science workflow is available in:
 
 ```text
 notebooks/HireGuard_AI_Final_Project.ipynb
 ```
 
-The notebook documents the complete journey from raw data to the final Machine Learning model, including:
+The notebook covers:
 
 ```text
-Dataset
-   ↓
-EDA
-   ↓
+Dataset Exploration
+        ↓
+Exploratory Data Analysis
+        ↓
 Data Cleaning
-   ↓
+        ↓
 NLP Preprocessing
-   ↓
-TF-IDF
-   ↓
+        ↓
+TF-IDF Feature Engineering
+        ↓
 Train/Test Split
-   ↓
+        ↓
 Model Training
-   ↓
+        ↓
+Model Evaluation
+        ↓
 Model Comparison
-   ↓
+        ↓
 Hyperparameter Tuning
-   ↓
-Evaluation
-   ↓
+        ↓
+Final Model Selection
+        ↓
 Model Serialization
-   ↓
+        ↓
 Real-Time Prediction
 ```
 
 ---
 
-# 📊 Model Comparison
+# 📥 Reproducing the Training Workflow
 
-| Model | Accuracy | Precision | Recall | F1-Score |
-|---|---:|---:|---:|---:|
-| Logistic Regression | 97.59% | 70.87% | **85.38%** | 77.45% |
-| Multinomial Naive Bayes | 96.34% | 65.67% | 51.46% | 57.70% |
-| Random Forest | 98.44% | **96.77%** | 70.18% | 81.36% |
-| **Linear SVM** | **98.50%** | 86.42% | 81.87% | **84.08%** |
+The large raw CSV dataset is not stored directly in this repository.
 
-🏆 **Selected Model: Linear SVM**
+To reproduce model training:
 
-The final model was selected based on its overall balance across precision, recall and F1-score rather than accuracy alone.
+1. Download the **Real / Fake Job Posting Prediction** dataset from Kaggle.
+2. Create:
+
+```text
+data/
+└── raw/
+    └── fake_job_postings.csv
+```
+
+3. Place the downloaded CSV inside `data/raw/`.
+4. Open:
+
+```text
+notebooks/HireGuard_AI_Final_Project.ipynb
+```
+
+5. Run the notebook cells in order.
+
+The notebook will perform preprocessing, analysis, feature engineering, training and evaluation.
 
 ---
 
 # 💡 Key Learnings
 
-This project demonstrates a complete Data Science lifecycle rather than stopping at model training.
+HireGuard AI demonstrates the complete lifecycle of a Machine Learning project:
 
-Key concepts applied include:
-
-- Real-world dataset exploration
-- Missing-value handling
-- Imbalanced classification
+- Working with a real-world dataset
+- Handling class imbalance
+- Exploratory Data Analysis
 - NLP preprocessing
-- Text vectorization
-- Model comparison
-- Classification metrics
-- Confusion-matrix interpretation
+- TF-IDF feature engineering
+- Training multiple classifiers
+- Evaluating minority-class performance
 - Hyperparameter tuning
-- Model persistence
-- REST API development
-- Frontend/backend integration
-- Real-time Machine Learning inference
+- Confusion-matrix interpretation
+- Model serialization
+- Building REST APIs
+- Connecting ML models to web applications
+- Real-time inference
+- Responsible presentation of ML predictions
 
 ---
 
 # ⚠️ Limitations
 
-HireGuard AI is an experimental Machine Learning system and has several limitations.
+HireGuard AI is an experimental Machine Learning system.
 
-- Predictions depend on patterns present in the training dataset.
-- New fraud strategies may differ from historical examples.
-- Text alone cannot verify whether a company legally exists.
-- A legitimate advertisement may occasionally be flagged.
-- A fraudulent advertisement may occasionally evade detection.
-- The decision score is a model output, not a calibrated probability of fraud.
+Current limitations include:
 
-Therefore, HireGuard should be treated as a **risk-screening system**, not an automated final authority.
+- Predictions depend on patterns learned from the training dataset.
+- New scam strategies may differ from historical examples.
+- Text alone cannot verify whether an employer legally exists.
+- Legitimate advertisements may occasionally be flagged.
+- Fraudulent advertisements may occasionally evade detection.
+- The SVM decision score is not a calibrated probability.
+
+The application should therefore be used as a **risk-screening tool rather than definitive proof of fraud**.
 
 ---
 
 # 🔮 Future Improvements
 
-Potential extensions include:
+Possible future extensions include:
 
 - Transformer-based NLP models such as BERT
 - Explainable AI for highlighting suspicious phrases
 - Probability calibration
-- URL and domain reputation analysis
-- Company verification APIs
+- URL/domain reputation analysis
+- Employer verification APIs
 - Recruiter email-domain analysis
-- Scam-pattern extraction
-- User feedback and model retraining
 - Database integration
-- Authentication
+- User authentication
+- User feedback collection
+- Automated model retraining
 - Cloud deployment
-- Automated model monitoring
+- Model monitoring
 
 ---
 
-# 🌟 Project Highlights
+# 🌟 Final Results
 
-✔ End-to-end Data Science workflow  
-✔ 17K+ processed recruitment advertisements  
-✔ Real-world imbalanced classification problem  
-✔ NLP + TF-IDF feature engineering  
-✔ Four Machine Learning algorithms compared  
-✔ Hyperparameter tuning  
-✔ 98.50% final test accuracy  
-✔ 84.08% fraud-class F1-score  
-✔ Serialized production model  
-✔ FastAPI REST API  
-✔ Interactive Swagger documentation  
-✔ Custom responsive frontend  
-✔ Real-time ML predictions  
-✔ Responsible AI disclaimer  
-✔ Portfolio-ready full-stack ML architecture  
+```text
+Selected Model : Linear SVM
+Best C         : 1.0
+
+Accuracy       : 98.50%
+Precision      : 86.42%
+Recall         : 81.87%
+F1-Score       : 84.08%
+```
+
+**HireGuard AI successfully demonstrates how an NLP classification model can be transformed from a Data Science experiment into a functional full-stack Machine Learning application.**
 
 ---
 
@@ -808,13 +826,19 @@ Potential extensions include:
 B.Tech — Computer Science & Engineering  
 Data Science
 
-Built as a final end-to-end Data Science project demonstrating the integration of **Data Analysis, Natural Language Processing, Machine Learning, API Development and Frontend Engineering**.
+This project was developed as a final end-to-end Data Science project demonstrating the integration of **Data Analysis, NLP, Machine Learning, API Development, and Frontend Engineering**.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
 
 ---
 
 ## ⭐ Support
 
-If you find HireGuard AI interesting, consider giving the repository a ⭐.
+If you find this project useful or interesting, consider giving the repository a ⭐.
 
 ---
 
